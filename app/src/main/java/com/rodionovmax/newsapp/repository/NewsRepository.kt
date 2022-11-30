@@ -1,6 +1,7 @@
 package com.rodionovmax.newsapp.repository
 
 import com.rodionovmax.newsapp.db.ArticleDatabase
+import com.rodionovmax.newsapp.model.Article
 import com.rodionovmax.newsapp.network.api.RetrofitInstance
 
 class NewsRepository(
@@ -11,4 +12,10 @@ class NewsRepository(
 
     suspend fun searchNews(searchQuery: String, pageNumber: Int) =
         RetrofitInstance.api.searchForNews(searchQuery, pageNumber)
+
+    suspend fun upsert(article: Article) = db.getArticleDao().upsert(article)
+
+    fun getSavedNews() = db.getArticleDao().getAllArticles()
+
+    suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
 }
